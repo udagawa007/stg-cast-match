@@ -1,0 +1,17 @@
+{
+  "name": "stg-cast-match",
+  "version": "1.0.0",
+  "description": "Cast match - Agency Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "mkdir -p dist && cp index.html style.css app.js *.png dist/",
+    "start": "npx serve dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}
