@@ -87,6 +87,15 @@
 
   <!-- ==================== MAIN APP ==================== -->
   <div id="app-screen" class="screen">
+    <!-- MOBILE HEADER / HAMBURGER -->
+    <div class="mobile-header">
+      <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Menu" onclick="toggleMobileMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mobile-brand-name">Cast match</div>
+    </div>
+    <div id="mobile-sidebar-overlay" class="mobile-sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">

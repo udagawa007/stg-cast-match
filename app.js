@@ -18,7 +18,6 @@ const models = [
     { id: 3, name: '鈴木 健太', nameRoma: 'Kenta Suzuki', age: 27, height: 182, size: '—', skills: '格闘技、バイク', img: 3 },
     { id: 4, name: '林 えみ', nameRoma: 'Emi Hayashi', age: 21, height: 165, size: '80/59/85', skills: '中国語、茶道', img: 4 },
     { id: 5, name: '木村 彩', nameRoma: 'Aya Kimura', age: 26, height: 170, size: '85/61/89', skills: 'ボイストレーニング、ヨガ', img: 5 },
-    { id: 6, name: '渡辺 浩二', nameRoma: 'Koji Watanabe', age: 29, height: 178, size: '—', skills: '料理、ギター、英語', img: 6 },
 ];
 
 const projects = [
@@ -35,6 +34,7 @@ const projects = [
         detail: 'ブランドの春夏コレクション向けビジュアル撮影。ナチュラル系メイクで清潔感のある女性モデルを募集しています。',
         conditions: '女性 / 20〜28歳 / 身長163cm以上 / 経験者歓迎',
         media: '雑誌・WEBサイト・交通広告',
+        img: 'project_01.png',
     },
     {
         id: 2, isNew: true, urgent: true,
@@ -49,6 +49,7 @@ const projects = [
         detail: '夏ドラマのビーチシーン、海水浴客役のエキストラを複数名募集。自然な演技ができる方歓迎。',
         conditions: '男女不問 / 18歳以上 / 水着着用OK / 日焼け問題ない方',
         media: 'テレビ東京 系列ドラマ',
+        img: 'project_02.png',
     },
     {
         id: 3, isNew: false, urgent: false,
@@ -63,6 +64,7 @@ const projects = [
         detail: 'ECサイトおよびカタログ向けの秋冬ウェア着用モデル。クリーンなスタイルが得意な方を希望。',
         conditions: '女性 / 21〜30歳 / 身長165〜172cm / サイズ38（M）',
         media: 'カタログ・ECサイト',
+        img: 'project_03.png',
     },
     {
         id: 4, isNew: true, urgent: false,
@@ -77,6 +79,7 @@ const projects = [
         detail: '次世代スマートフォンのテレビCM出演者募集。家族感・親しみやすさを演出できる方。',
         conditions: '男女不問 / 25〜40歳 / 明るくフレンドリーな雰囲気',
         media: 'テレビCM（全国放映）',
+        img: 'project_04.png',
     },
     {
         id: 5, isNew: false, urgent: false,
@@ -91,6 +94,7 @@ const projects = [
         detail: '大型モーターショーのブースコンパニオン。来場者へのブランドPRおよびノベルティ配布。',
         conditions: '女性 / 20〜30歳 / 身長165cm以上 / 接客経験あれば尚可',
         media: '自動車メーカーブース各社',
+        img: 'project_05.png',
     },
     {
         id: 6, isNew: false, urgent: false,
@@ -105,6 +109,7 @@ const projects = [
         detail: 'SNS・YouTube向けのWEB限定動画広告。明るくカジュアルな雰囲気で商品を楽しむ演技。',
         conditions: '男女不問 / 18〜25歳 / 笑顔が自然な方',
         media: 'YouTube・Instagram・TikTok',
+        img: 'project_06.png',
     },
 ];
 
@@ -163,11 +168,20 @@ function logout() {
 }
 
 // ---- NAVIGATION ----
+function toggleMobileMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('mobile-sidebar-overlay').classList.toggle('active');
+}
+
 function showPage(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
     document.getElementById(`page-${page}`).classList.add('active');
     document.querySelector(`.sidebar-item[data-page="${page}"]`).classList.add('active');
+    
+    // モバイルの場合はドロワーを閉じる
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mobile-sidebar-overlay').classList.remove('active');
 }
 
 // ---- PROJECT RENDER ----
@@ -183,31 +197,38 @@ function renderProjects(filter = {}) {
 
     grid.innerHTML = filtered.map(p => `
     <div class="project-card" onclick="openProjectModal(${p.id})" id="proj-card-${p.id}">
-      <div class="card-top">
-        <div class="card-badges">
-          ${p.isNew ? '<span class="badge badge--new">NEW</span>' : ''}
-          ${p.isUrgent ? '<span class="badge badge--urgent">〆切間近</span>' : ''}
-          <span class="badge badge--genre">${p.genre}</span>
-        </div>
+      ${p.img ? `
+      <div class="card-image-wrap">
+        <img class="card-image" src="${p.img}" alt="${p.title}" onerror="this.style.display='none'">
       </div>
-      <div class="card-client">${p.client}</div>
-      <div class="card-title">${p.title}</div>
-      <div class="card-meta">
-        <div class="card-meta-row">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1V3M9 1V3M1 5H12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          ${p.date}
+      ` : ''}
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-badges">
+            ${p.isNew ? '<span class="badge badge--new">NEW</span>' : ''}
+            ${p.isUrgent ? '<span class="badge badge--urgent">〆切間近</span>' : ''}
+            <span class="badge badge--genre">${p.genre}</span>
+          </div>
         </div>
-        <div class="card-meta-row">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C4.015 1 2 3.015 2 5.5C2 8.985 6.5 12 6.5 12C6.5 12 11 8.985 11 5.5C11 3.015 8.985 1 6.5 1Z" stroke="currentColor" stroke-width="1.2"/><circle cx="6.5" cy="5.5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-          ${p.location}
+        <div class="card-client">${p.client}</div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-meta">
+          <div class="card-meta-row">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1V3M9 1V3M1 5H12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            ${p.date}
+          </div>
+          <div class="card-meta-row">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C4.015 1 2 3.015 2 5.5C2 8.985 6.5 12 6.5 12C6.5 12 11 8.985 11 5.5C11 3.015 8.985 1 6.5 1Z" stroke="currentColor" stroke-width="1.2"/><circle cx="6.5" cy="5.5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+            ${p.location}
+          </div>
         </div>
-      </div>
-      <div class="card-divider"></div>
-      <div class="card-footer">
-        <div class="card-price">${p.price}<span>${p.priceNote}</span></div>
-        <div class="card-deadline ${p.isUrgent ? 'urgent' : ''}">
-          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 3V5.5L7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          締切: ${p.deadline}
+        <div class="card-divider"></div>
+        <div class="card-footer">
+          <div class="card-price">${p.price}<span>${p.priceNote}</span></div>
+          <div class="card-deadline ${p.isUrgent ? 'urgent' : ''}">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 3V5.5L7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            締切: ${p.deadline}
+          </div>
         </div>
       </div>
     </div>
