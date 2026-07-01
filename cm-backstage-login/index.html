@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cast match | 管理者ダッシュボード</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ログイン画面 -->
+  <div id="login-screen" class="screen active">
+    <div class="login-card">
+      <div class="brand">Cast match Admin</div>
+      <h1 class="title">管理者ログイン</h1>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label>管理者ID</label>
+          <input type="text" value="admin" required>
+        </div>
+        <div class="form-group">
+          <label>パスワード</label>
+          <input type="password" value="password" required>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 12px;">
+          <span></span>
+          <a href="#" onclick="openAdminResetModal(event)" style="color: var(--primary); text-decoration: none;">パスワードを忘れた場合</a>
+        </div>
+        <button type="submit" class="btn btn-primary" id="login-btn">ログイン</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- メインダッシュボード -->
+  <div id="app-screen" class="screen">
+    <!-- スマホヘッダー -->
+    <div class="mobile-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="brand">Cast match Admin</div>
+      </div>
+      <!-- スマホ通知ベル -->
+      <div class="notification-container" style="position: relative;">
+        <button class="notification-trigger" onclick="toggleNotifications(event)" style="background: none; border: none; color: inherit; cursor: pointer; position: relative; padding: 4px; display: flex; align-items: center; justify-content: center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notification-badge stripe-badge" style="position: absolute; top: -2px; right: -2px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; border-radius: 50%; min-width: 16px; height: 16px; display: none; align-items: center; justify-content: center; padding: 0 4px;">0</span>
+        </button>
+        <div class="notification-dropdown stripe-dropdown" style="display: none; position: absolute; right: 0; top: 36px; width: 280px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 200; color: #111827; text-align: left;">
+          <div style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px;">通知タイムライン</span>
+            <button onclick="clearNotifications(event)" style="font-size: 11px; color: #3b82f6; background: none; border: none; cursor: pointer;">すべてクリア</button>
+          </div>
+          <div class="notification-list-box" style="max-height: 250px; overflow-y: auto; font-size: 12px; line-height: 1.4;">
+            <!-- JSで動的描画 -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-overlay" onclick="toggleMenu()"></div>
+
+    <!-- サイドバー -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="brand">Admin Dashboard</div>
+        <!-- PC通知ベル -->
+        <div class="notification-container" style="position: relative;">
+          <button class="notification-trigger" onclick="toggleNotifications(event)" style="background: none; border: none; color: var(--text-sidebar); cursor: pointer; position: relative; padding: 4px; display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge stripe-badge" style="position: absolute; top: -2px; right: -2px; background: #ef4444; color: #fff; font-size: 9px; font-weight: 700; border-radius: 50%; min-width: 14px; height: 14px; display: none; align-items: center; justify-content: center; padding: 0 3px;">0</span>
+          </button>
+          <div class="notification-dropdown stripe-dropdown" style="display: none; position: absolute; right: 0; top: 32px; width: 280px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 200; color: #111827; text-align: left;">
+            <div style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 13px;">通知タイムライン</span>
+              <button onclick="clearNotifications(event)" style="font-size: 11px; color: #3b82f6; background: none; border: none; cursor: pointer;">すべてクリア</button>
+            </div>
+            <div class="notification-list-box" style="max-height: 250px; overflow-y: auto; font-size: 12px; line-height: 1.4;">
+              <!-- JSで動的描画 -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="database" onclick="showPage('database')">案件管理 (DB)</button>
+        <button class="nav-item" data-page="models-manage" onclick="showPage('models-manage')">登録モデル管理</button>
+        <button class="nav-item" data-page="clients" onclick="showPage('clients')">クライアント管理</button>
+        <button class="nav-item" data-page="agencies" onclick="showPage('agencies')">提携事務所管理</button>
+        <button class="nav-item" data-page="news" onclick="showPage('news')">お知らせ管理</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn btn-ghost" onclick="logout()">ログアウト</button>
+      </div>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+      
+      <!-- 案件管理ページ -->
+      <div id="page-database" class="page active">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">案件マスターデータベース</h2>
+            <p class="page-subtitle">全16カラム構成。最新の受信データが上部に表示されます。</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary" onclick="runMacro()">応募フォーム生成 (マクロ)</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th width="40">🔴</th>
+                <th width="90">受信日</th>
+                <th width="140">クライアント名</th>
+                <th width="120">案件ジャンル</th>
+                <th width="200">案件内容</th>
+                <th width="140">条件</th>
+                <th width="120">日程</th>
+                <th width="120">場所</th>
+                <th width="100">媒体</th>
+                <th width="100">単価</th>
+                <th width="90">締切日</th>
+                <th width="120">ステータス</th>
+                <th width="180">展開文章</th>
+                <th width="180">展開用フォーム</th>
+                <th width="180">エントリーシート</th>
+                <th width="120">フロント公開設定</th>
+              </tr>
+            </thead>
+            <tbody id="db-table-body">
+              <!-- JSで描画 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- クライアント管理 -->
+      <div id="page-clients" class="page">
+        <h2 class="page-title">クライアント一覧</h2>
+        <div class="placeholder-content">クライアントの基本情報、与信スコア、現在進行中の案件数などを表示する画面です。</div>
+      </div>
+
+      <!-- 提携事務所管理 -->
+      <div id="page-agencies" class="page">
+        <h2 class="page-title">提携事務所（ユーザー）管理</h2>
+        <div class="placeholder-content">事務所のアカウント発行、契約プラン（スターター／ビジネス／プロ）を管理する画面です。</div>
+      </div>
+
+      <!-- お知らせ管理 -->
+      <div id="page-news" class="page">
+        <h2 class="page-title">お知らせ（メディア）管理</h2>
+        <div class="placeholder-content">ユーザー画面に表示される「運営からのお知らせ」を投稿・編集するための画面です。</div>
+      </div>
+
+      <!-- 登録モデル管理 -->
+      <div id="page-models-manage" class="page">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 class="page-title">登録モデル一覧</h2>
+            <p class="page-subtitle">プラットフォームに登録されているすべてのタレント・モデルを監視・管理します。</p>
+          </div>
+          <div>
+            <input type="text" id="model-search" placeholder="名前・事務所で検索..." oninput="filterModelsManage()" style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; width: 240px; outline: none;">
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="data-table" style="min-width: 100%;">
+            <thead>
+              <tr>
+                <th width="80">写真</th>
+                <th>氏名</th>
+                <th>所属事務所</th>
+                <th width="100">年齢</th>
+                <th width="100">身長</th>
+                <th>特技・スキル</th>
+                <th width="140">公開設定</th>
+                <th width="100">操作</th>
+              </tr>
+            </thead>
+            <tbody id="models-manage-table-body">
+              <!-- JSで描画 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==================== ADMIN PASSWORD RESET MODAL ==================== -->
+  <div class="modal-overlay" id="admin-reset-modal-overlay" onclick="closeAdminResetModal(event)" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px;">
+    <div class="login-card" style="position: relative; width: 100%; max-width: 400px; padding: 32px;">
+      <button onclick="closeAdminResetModal()" style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-sub);">&times;</button>
+      <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">管理者パスワード再設定</h3>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 20px;">登録済みの管理者メールアドレスを入力してください。</p>
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 12px; margin-bottom: 6px; color: var(--text-sub);">メールアドレス</label>
+        <input type="email" id="admin-reset-email" placeholder="admin@example.com" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; outline: none;">
+      </div>
+      <button class="btn btn-primary" onclick="sendAdminResetEmail()" style="width: 100%;">再設定リンクを送信</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -71,7 +71,7 @@
             <label class="checkbox-label">
               <input type="checkbox" checked> ログイン状態を保持
             </label>
-            <a href="#" class="forgot-link">パスワードを忘れた場合</a>
+            <a href="#" class="forgot-link" onclick="openResetModal(event)">パスワードを忘れた場合</a>
           </div>
           <button type="submit" class="btn btn--primary btn--full" id="login-btn">
             <span>ログイン</span>
@@ -575,6 +575,144 @@
           <button class="btn btn--primary" onclick="submitEntry()">
             この案件にエントリーする
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PLAN CHANGE MODAL ==================== -->
+  <div class="modal-overlay" id="plan-modal-overlay" onclick="closePlanChangeModal(event)">
+    <div class="modal modal--entry">
+      <button class="modal-close" onclick="closePlanChangeModal()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h3 class="modal-title" style="margin-bottom:16px">プランの変更</h3>
+        <p class="modal-subtitle" style="margin-bottom:24px">ご希望のプランを選択してください。プラン変更は即時適用されます。</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input type="radio" name="plan-select" value="starter">
+              <div>
+                <div style="font-weight: 600; color: var(--text-primary);">スタータープラン</div>
+                <div style="font-size: 11px; color: var(--text-muted);">基本的な機能を利用可能</div>
+              </div>
+            </div>
+            <div style="font-weight: 700; color: var(--text-primary);">¥10,000 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/ 月</span></div>
+          </label>
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input type="radio" name="plan-select" value="business" checked>
+              <div>
+                <div style="font-weight: 600; color: var(--text-primary);">ビジネスプラン</div>
+                <div style="font-size: 11px; color: var(--text-muted);">時差24時間の制限なし、優先サポート</div>
+              </div>
+            </div>
+            <div style="font-weight: 700; color: var(--text-primary);">¥30,000 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/ 月</span></div>
+          </label>
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input type="radio" name="plan-select" value="pro">
+              <div>
+                <div style="font-weight: 600; color: var(--text-primary);">プロプラン</div>
+                <div style="font-size: 11px; color: var(--text-muted);">全機能開放、専任の運用コンシェルジュ</div>
+              </div>
+            </div>
+            <div style="font-weight: 700; color: var(--text-primary);">¥50,000 <span style="font-size: 11px; font-weight: 400; color: var(--text-muted);">/ 月</span></div>
+          </label>
+        </div>
+        <div class="modal-footer" style="padding:0; border:none; display: flex; gap: 12px;">
+          <button class="btn btn--ghost" style="flex: 1;" onclick="closePlanChangeModal()">キャンセル</button>
+          <button class="btn btn--primary" style="flex: 1;" onclick="submitPlanChange()">プランを適用する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CARD EDIT MODAL ==================== -->
+  <div class="modal-overlay" id="card-modal-overlay" onclick="closeCardEditModal(event)">
+    <div class="modal modal--entry">
+      <button class="modal-close" onclick="closeCardEditModal()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h3 class="modal-title" style="margin-bottom:16px">クレジットカード情報の変更</h3>
+        <p class="modal-subtitle" style="margin-bottom:24px">新しいクレジットカードの情報を入力してください。(Stripeセキュア決済)</p>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+          <div class="form-group">
+            <label class="form-label">カード番号</label>
+            <div style="position: relative;">
+              <input type="text" class="form-input" id="stripe-card-num" placeholder="1234 5678 1234 5678" style="padding-right: 40px;">
+              <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" /><line x1="1" y1="10" x2="23" y2="10" /></svg>
+              </span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">有効期限 (月/年)</label>
+              <input type="text" class="form-input" id="stripe-card-expiry" placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVC (セキュリティコード)</label>
+              <input type="password" class="form-input" id="stripe-card-cvc" placeholder="123">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding:0; border:none; display: flex; gap: 12px;">
+          <button class="btn btn--ghost" style="flex: 1;" onclick="closeCardEditModal()">キャンセル</button>
+          <button class="btn btn--primary" style="flex: 1;" onclick="submitCardEdit()">カード情報を保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SUBSCRIPTION CANCEL MODAL ==================== -->
+  <div class="modal-overlay" id="cancel-modal-overlay" onclick="closeCancelSubscriptionModal(event)">
+    <div class="modal modal--entry">
+      <button class="modal-close" onclick="closeCancelSubscriptionModal()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h3 class="modal-title" style="margin-bottom:16px; color: #ef4444;">サブスクリプションの解約</h3>
+        <p class="modal-subtitle" style="margin-bottom:20px; line-height: 1.6;">本当に解約手続きを進めてよろしいですか？<br>解約後も、現在の契約有効期限（2026年7月30日）まではすべての機能を引き続きご利用いただけます。</p>
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin-bottom: 24px; font-size: 13px; color: #991b1b; line-height: 1.6;">
+          <strong>ご注意点:</strong><br>
+          ・解約後の日割りでの返金は致しかねます。<br>
+          ・有効期限が終了すると、掲載案件へのエントリー機能が制限されます。
+        </div>
+        <div class="modal-footer" style="padding:0; border:none; display: flex; gap: 12px;">
+          <button class="btn btn--ghost" style="flex: 1;" onclick="closeCancelSubscriptionModal()">戻る</button>
+          <button class="btn btn--primary" style="flex: 1; background: #ef4444; box-shadow: none;" onclick="submitCancelSubscription()">解約を確定する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PASSWORD RESET MODAL ==================== -->
+  <div class="modal-overlay" id="reset-modal-overlay" onclick="closeResetModal(event)">
+    <div class="modal modal--entry">
+      <button class="modal-close" onclick="closeResetModal()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h3 class="modal-title" style="margin-bottom:16px">パスワード再設定</h3>
+        <p class="modal-subtitle" style="margin-bottom:24px">ご登録済みのメールアドレスを入力してください。再設定用のリンクをお送りします。</p>
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label class="form-label">メールアドレス</label>
+          <input type="email" id="reset-email" class="form-input" placeholder="example@domain.com">
+        </div>
+        <div class="modal-footer" style="padding:0; border:none; display: flex; gap: 12px;">
+          <button class="btn btn--ghost" style="flex: 1;" onclick="closeResetModal()">キャンセル</button>
+          <button class="btn btn--primary" style="flex: 1;" onclick="sendResetEmail()">送信する</button>
         </div>
       </div>
     </div>

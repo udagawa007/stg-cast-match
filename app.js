@@ -344,8 +344,43 @@ function submitEntry() {
         showToast('⚠️ モデルを1名以上選択してください');
         return;
     }
+    
+    // プロジェクト名とモデル名の取得
+    const projectTitle = document.getElementById('entry-project-title').textContent;
+    const modelNames = Array.from(selected).map(el => el.querySelector('.model-select-name').textContent).join(', ');
+    
+    // 通知オブジェクトの生成とlocalStorageへの保存
+    const notifications = JSON.parse(localStorage.getItem('admin_notifications') || '[]');
+    const newNotification = {
+        id: Date.now(),
+        message: `デモ事務所が『${projectTitle}』にエントリーしました（候補モデル: ${modelNames}）`,
+        time: new Date().toLocaleString(),
+        read: false
+    };
+    notifications.unshift(newNotification);
+    localStorage.setItem('admin_notifications', JSON.stringify(notifications));
+
+    // 将来の外部チャットツール（Slack等）へのリアルタイム転送フック
+    sendExternalWebhookNotification(newNotification.message);
+
     document.getElementById('entry-modal-overlay').classList.remove('open');
     showToast('✅ エントリーが完了しました！', 'success');
+}
+
+// 外部通知用関数の雛形（Webhook URLを挿入すれば動作）
+function sendExternalWebhookNotification(message) {
+    const webhookUrl = ""; // 将来的にSlackのIncoming Webhook URLなどをここに設定
+    if (!webhookUrl) {
+        console.log("[Notification Hook] Webhook URLが設定されていません。外部送信をスキップします:", message);
+        return;
+    }
+    fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message })
+    })
+    .then(() => console.log("[Notification Hook] 外部通知を送信しました"))
+    .catch(err => console.error("[Notification Hook] 外部通知の送信に失敗しました:", err));
 }
 
 // ---- MODEL GRID ----
@@ -481,4 +516,91 @@ function showToast(msg, type = '') {
     toast.textContent = msg;
     toast.className = `toast${type ? ` toast--${type}` : ''} show`;
     setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ---- BILLING & SUBSCRIPTION (Stripe Mock) ----
+function openPlanChangeModal() {
+    document.getElementById('plan-modal-overlay').classList.add('open');
+}
+function closePlanChangeModal(e) {
+    if (e && e.target !== document.getElementById('plan-modal-overlay')) return;
+    document.getElementById('plan-modal-overlay').classList.remove('open');
+}
+function submitPlanChange() {
+    const selectedPlan = document.querySelector('input[name="plan-select"]:checked').value;
+    const planNameEl = document.getElementById('current-plan-name');
+    const footerPlanNameEl = document.querySelector('.plan-name'); // サイドバーフッターのプラン表示
+    
+    if (selectedPlan === 'starter') {
+        planNameEl.textContent = 'スタータープラン';
+        planNameEl.nextElementSibling.innerHTML = '¥10,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
+        if (footerPlanNameEl) footerPlanNameEl.textContent = 'スタータープラン';
+    } else if (selectedPlan === 'business') {
+        planNameEl.textContent = 'ビジネスプラン';
+        planNameEl.nextElementSibling.innerHTML = '¥30,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
+        if (footerPlanNameEl) footerPlanNameEl.textContent = 'ビジネスプラン';
+    } else if (selectedPlan === 'pro') {
+        planNameEl.textContent = 'プロプラン';
+        planNameEl.nextElementSibling.innerHTML = '¥50,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
+        if (footerPlanNameEl) footerPlanNameEl.textContent = 'プロプラン';
+    }
+    
+    closePlanChangeModal();
+    showToast('✅ プランを変更しました（Stripe Billing連動）', 'success');
+}
+
+function openCardEditModal() {
+    document.getElementById('card-modal-overlay').classList.add('open');
+}
+function closeCardEditModal(e) {
+    if (e && e.target !== document.getElementById('card-modal-overlay')) return;
+    document.getElementById('card-modal-overlay').classList.remove('open');
+}
+function submitCardEdit() {
+    const cardNum = document.getElementById('stripe-card-num').value.trim();
+    if (!cardNum) {
+        showToast('⚠️ カード番号を入力してください');
+        return;
+    }
+    const last4 = cardNum.slice(-4);
+    document.getElementById('masked-card-number').textContent = `•••• •••• •••• ${last4 || '4242'}`;
+    closeCardEditModal();
+    showToast('✅ クレジットカード情報を更新しました（Stripe Token生成）', 'success');
+}
+
+function openCancelSubscriptionModal() {
+    document.getElementById('cancel-modal-overlay').classList.add('open');
+}
+function closeCancelSubscriptionModal(e) {
+    if (e && e.target !== document.getElementById('cancel-modal-overlay')) return;
+    document.getElementById('cancel-modal-overlay').classList.remove('open');
+}
+function submitCancelSubscription() {
+    document.getElementById('current-plan-name').textContent = 'スタータープラン (解約予約済み)';
+    closeCancelSubscriptionModal();
+    showToast('✅ サブスクリプションの解約予約を受け付けました', 'success');
+}
+
+// ---- PASSWORD RESET ----
+function openResetModal(e) {
+    if (e) e.preventDefault();
+    document.getElementById('reset-modal-overlay').classList.add('open');
+}
+function closeResetModal(e) {
+    if (e && e.target !== document.getElementById('reset-modal-overlay')) return;
+    document.getElementById('reset-modal-overlay').classList.remove('open');
+}
+function sendResetEmail() {
+    const email = document.getElementById('reset-email').value.trim();
+    if (!email) {
+        showToast('⚠️ メールアドレスを入力してください');
+        return;
+    }
+    closeResetModal();
+    showToast('✉️ パスワード再設定メールを送信しました');
+    
+    // システムから自動で一時URLを送信するシミュレーション
+    const resetToken = Math.random().toString(36).substring(2, 15);
+    const resetUrl = `${window.location.origin}${window.location.pathname}?reset_token=${resetToken}`;
+    console.log(`[Auto-Response Reset Mail Simulation]\nTo: ${email}\nLink: ${resetUrl}`);
 }

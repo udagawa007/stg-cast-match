@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>特定商取引法に基づく表記 | Cast match</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --primary: #0284c7;
+      --border: #e2e8f0;
+    }
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.7;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 12px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    .table th, .table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 15px;
+    }
+    .table th {
+      width: 250px;
+      color: var(--text-primary);
+      font-weight: 600;
+      background: #f1f5f9;
+    }
+    .table td {
+      color: var(--text-secondary);
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 40px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>特定商取引法に基づく表記</h1>
+    
+    <table class="table">
+      <tr>
+        <th>事業者名</th>
+        <td>Cast match 運営事務局</td>
+      </tr>
+      <tr>
+        <th>代表者</th>
+        <td>代表者 氏名</td>
+      </tr>
+      <tr>
+        <th>所在地</th>
+        <td>東京都渋谷区〇〇 1-2-3</td>
+      </tr>
+      <tr>
+        <th>お問い合わせ先</th>
+        <td>support@example.com <br>（受付時間：平日10:00〜18:00）</td>
+      </tr>
+      <tr>
+        <th>販売価格</th>
+        <td>購入手続きの際に画面に表示されます。各プランの月額料金プランに基づきます。</td>
+      </tr>
+      <tr>
+        <th>販売価格以外に必要な費用</th>
+        <td>インターネット接続料金、通信料金等。</td>
+      </tr>
+      <tr>
+        <th>お支払方法</th>
+        <td>クレジットカード決済 (Stripe)</td>
+      </tr>
+      <tr>
+        <th>代金の支払時期</th>
+        <td>初回購読登録時、および毎月の自動更新時に決済されます。</td>
+      </tr>
+      <tr>
+        <th>役務の提供時期</th>
+        <td>決済完了後、即時にご利用いただけます。</td>
+      </tr>
+      <tr>
+        <th>退会・解約について</th>
+        <td>マイページの「契約・支払い管理」からいつでも解約手続きが可能です。解約後も有効期限までは引き続きサービスをご利用いただけます。日割り計算による返金は行っておりません。</td>
+      </tr>
+    </table>
+
+    <a href="javascript:history.back()" class="back-btn">← 戻る</a>
+  </div>
+</body>
+</html>
