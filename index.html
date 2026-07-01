@@ -322,6 +322,112 @@
         </div>
       </div>
 
+      <!-- ========== PAGE: BILLING ========== -->
+      <div id="page-billing" class="page">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">契約・支払い管理</h2>
+            <p class="page-subtitle">プランの契約状況と支払い履歴を管理します。</p>
+          </div>
+          <div class="header-stats">
+            <div class="stat-item">
+              <span class="stat-num" style="color:#22c55e">ビジネス</span>
+              <span class="stat-label">契約中</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">¥99,800</span>
+              <span class="stat-label">/月</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="billing-container" style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top:32px;">
+          <!-- Contract Info Card -->
+          <div class="billing-card" style="border: 1px solid var(--surface-2); border-radius: 12px; padding: 24px;">
+            <h3 class="billing-card-title" style="font-size:16px; font-weight:600; margin-bottom:16px; color:var(--text-primary)">現在のプラン</h3>
+            <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:20px;">
+              <span style="font-size:28px; font-weight:700; color:var(--cyan-500)">¥99,800</span>
+              <span style="font-size:14px; color:var(--text-muted)">/月</span>
+            </div>
+            <div style="border-top: 1px solid var(--surface-2); padding-top:16px; margin-top:16px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                <span style="color:var(--text-muted); font-size:13px">プラン名</span>
+                <span style="font-weight:500">ビジネスプラン</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                <span style="color:var(--text-muted); font-size:13px">契約開始日</span>
+                <span style="font-weight:500">2026年5月1日</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                <span style="color:var(--text-muted); font-size:13px">次回請求日</span>
+                <span style="font-weight:500">2026年7月1日</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted); font-size:13px">ステータス</span>
+                <span style="font-weight:500; color:#22c55e">契約中</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Features Card -->
+          <div class="billing-card" style="border: 1px solid var(--surface-2); border-radius: 12px; padding: 24px;">
+            <h3 class="billing-card-title" style="font-size:16px; font-weight:600; margin-bottom:16px; color:var(--text-primary)">プラン機能</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:14px">案件情報の閲覧</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:14px">無制限エントリー</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:14px">モデル管理（最大50名）</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:14px">優先サポート</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8L6 11.5L13.5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span style="font-size:14px">分析・レポート機能</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment History Table -->
+        <div style="margin-top:40px;">
+          <h3 style="font-size:16px; font-weight:600; margin-bottom:16px; color:var(--text-primary)">支払い履歴</h3>
+          <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--surface-2);">
+                <th style="padding:12px; text-align:left; color:var(--text-muted); font-weight:500">請求日</th>
+                <th style="padding:12px; text-align:left; color:var(--text-muted); font-weight:500">金額</th>
+                <th style="padding:12px; text-align:left; color:var(--text-muted); font-weight:500">ステータス</th>
+                <th style="padding:12px; text-align:left; color:var(--text-muted); font-weight:500">領収書</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--surface-2);">
+                <td style="padding:12px; color:var(--text-primary)">2026年6月1日</td>
+                <td style="padding:12px; font-weight:500">¥99,800</td>
+                <td style="padding:12px;"><span style="background:#22c55e20; color:#22c55e; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500">支払済</span></td>
+                <td style="padding:12px;"><a href="#" style="color:var(--cyan-500); text-decoration:none; font-weight:500">ダウンロード</a></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--surface-2);">
+                <td style="padding:12px; color:var(--text-primary)">2026年5月1日</td>
+                <td style="padding:12px; font-weight:500">¥99,800</td>
+                <td style="padding:12px;"><span style="background:#22c55e20; color:#22c55e; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500">支払済</span></td>
+                <td style="padding:12px;"><a href="#" style="color:var(--cyan-500); text-decoration:none; font-weight:500">ダウンロード</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </main>
   </div>
 
