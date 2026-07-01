@@ -13,11 +13,121 @@ const MODEL_IMAGES = {
 };
 
 const models = [
-    { id: 1, name: '佐藤 美咲', nameRoma: 'Misaki Sato', age: 24, height: 168, size: '84/60/88', skills: '英語、ダンス、ピアノ', img: 1 },
-    { id: 2, name: '田中 葵', nameRoma: 'Aoi Tanaka', age: 22, height: 172, size: '82/59/86', skills: 'バレエ10年、水泳', img: 2 },
-    { id: 3, name: '鈴木 健太', nameRoma: 'Kenta Suzuki', age: 27, height: 182, size: '—', skills: '格闘技、バイク', img: 3 },
-    { id: 4, name: '林 えみ', nameRoma: 'Emi Hayashi', age: 21, height: 165, size: '80/59/85', skills: '中国語、茶道', img: 4 },
-    { id: 5, name: '木村 彩', nameRoma: 'Aya Kimura', age: 26, height: 170, size: '85/61/89', skills: 'ボイストレーニング、ヨガ', img: 5 },
+    {
+        id: 1,
+        name: '佐藤 美咲',
+        nameRoma: 'Misaki Sato',
+        age: 24,
+        height: 168,
+        size: '84/60/88',
+        skills: '英語、ダンス、ピアノ',
+        img: 1,
+        pref: '東京都',
+        station: '恵比寿駅',
+        videoSelf: 'https://youtube.com/watch?v=misaki_self',
+        videoAct: 'https://youtube.com/watch?v=misaki_act',
+        videoOther: 'https://youtube.com/watch?v=misaki_dance',
+        allergy: 'なし',
+        allergyDetail: '',
+        instagramUrl: 'https://instagram.com/misaki_sato',
+        instagramFollowers: 15000,
+        tiktokUrl: 'https://tiktok.com/@misaki_sato',
+        tiktokFollowers: 32000,
+        xUrl: 'https://x.com/misaki_sato',
+        xFollowers: 8500
+    },
+    {
+        id: 2,
+        name: '田中 葵',
+        nameRoma: 'Aoi Tanaka',
+        age: 22,
+        height: 172,
+        size: '82/59/86',
+        skills: 'バレエ10年、水泳',
+        img: 2,
+        pref: '神奈川県',
+        station: '横浜駅',
+        videoSelf: 'https://youtube.com/watch?v=aoi_self',
+        videoAct: 'https://youtube.com/watch?v=aoi_act',
+        videoOther: '',
+        allergy: 'あり',
+        allergyDetail: 'そばアレルギー、犬・猫アレルギー（重度ではありませんが、接触時は注意が必要です）',
+        instagramUrl: 'https://instagram.com/aoi_tanaka',
+        instagramFollowers: 24000,
+        tiktokUrl: '',
+        tiktokFollowers: null,
+        xUrl: 'https://x.com/aoi_tanaka',
+        xFollowers: 12000
+    },
+    {
+        id: 3,
+        name: '鈴木 健太',
+        nameRoma: 'Kenta Suzuki',
+        age: 27,
+        height: 182,
+        size: '—',
+        skills: '格闘技、バイク',
+        img: 3,
+        pref: '千葉県',
+        station: '浦安駅',
+        videoSelf: 'https://youtube.com/watch?v=kenta_self',
+        videoAct: '',
+        videoOther: 'https://youtube.com/watch?v=kenta_action',
+        allergy: 'なし',
+        allergyDetail: '',
+        instagramUrl: '',
+        instagramFollowers: null,
+        tiktokUrl: 'https://tiktok.com/@kenta_action',
+        tiktokFollowers: 8500,
+        xUrl: 'https://x.com/kenta_suzuki',
+        xFollowers: 4500
+    },
+    {
+        id: 4,
+        name: '林 えみ',
+        nameRoma: 'Emi Hayashi',
+        age: 21,
+        height: 165,
+        size: '80/59/85',
+        skills: '中国語、茶道',
+        img: 4,
+        pref: '埼玉県',
+        station: '大宮駅',
+        videoSelf: '',
+        videoAct: 'https://youtube.com/watch?v=emi_act',
+        videoOther: '',
+        allergy: 'なし',
+        allergyDetail: '',
+        instagramUrl: 'https://instagram.com/emi_hayashi',
+        instagramFollowers: 9800,
+        tiktokUrl: 'https://tiktok.com/@emi_hayashi',
+        tiktokFollowers: 15000,
+        xUrl: '',
+        xFollowers: null
+    },
+    {
+        id: 5,
+        name: '木村 彩',
+        nameRoma: 'Aya Kimura',
+        age: 26,
+        height: 170,
+        size: '85/61/89',
+        skills: 'ボイストレーニング、ヨガ',
+        img: 5,
+        pref: '東京都',
+        station: '中目黒駅',
+        videoSelf: 'https://youtube.com/watch?v=aya_self',
+        videoAct: 'https://youtube.com/watch?v=aya_act',
+        videoOther: 'https://youtube.com/watch?v=aya_yoga',
+        allergy: 'あり',
+        allergyDetail: '甲殻類アレルギー（エビ・カニは摂取NG、出汁程度なら可）',
+        instagramUrl: 'https://instagram.com/aya_kimura',
+        instagramFollowers: 42000,
+        tiktokUrl: '',
+        tiktokFollowers: null,
+        xUrl: 'https://x.com/aya_kimura',
+        xFollowers: 18000
+    },
 ];
 
 const projects = [
@@ -144,6 +254,19 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProjects();
     renderModels();
     renderEntries();
+
+    // 新規登録フォームのアレルギーラジオボタン制御
+    document.querySelectorAll('input[name="reg-allergy"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const container = document.getElementById('reg-allergy-detail-container');
+            if (!container) return;
+            if (this.value === 'あり') {
+                container.classList.add('active');
+            } else {
+                container.classList.remove('active');
+            }
+        });
+    });
 });
 
 // ---- LOGIN ----
@@ -344,51 +467,16 @@ function submitEntry() {
         showToast('⚠️ モデルを1名以上選択してください');
         return;
     }
-    
-    // プロジェクト名とモデル名の取得
-    const projectTitle = document.getElementById('entry-project-title').textContent;
-    const modelNames = Array.from(selected).map(el => el.querySelector('.model-select-name').textContent).join(', ');
-    
-    // 通知オブジェクトの生成とlocalStorageへの保存
-    const notifications = JSON.parse(localStorage.getItem('admin_notifications') || '[]');
-    const newNotification = {
-        id: Date.now(),
-        message: `デモ事務所が『${projectTitle}』にエントリーしました（候補モデル: ${modelNames}）`,
-        time: new Date().toLocaleString(),
-        read: false
-    };
-    notifications.unshift(newNotification);
-    localStorage.setItem('admin_notifications', JSON.stringify(notifications));
-
-    // 将来の外部チャットツール（Slack等）へのリアルタイム転送フック
-    sendExternalWebhookNotification(newNotification.message);
-
     document.getElementById('entry-modal-overlay').classList.remove('open');
     showToast('✅ エントリーが完了しました！', 'success');
-}
-
-// 外部通知用関数の雛形（Webhook URLを挿入すれば動作）
-function sendExternalWebhookNotification(message) {
-    const webhookUrl = ""; // 将来的にSlackのIncoming Webhook URLなどをここに設定
-    if (!webhookUrl) {
-        console.log("[Notification Hook] Webhook URLが設定されていません。外部送信をスキップします:", message);
-        return;
-    }
-    fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: message })
-    })
-    .then(() => console.log("[Notification Hook] 外部通知を送信しました"))
-    .catch(err => console.error("[Notification Hook] 外部通知の送信に失敗しました:", err));
 }
 
 // ---- MODEL GRID ----
 function renderModels() {
     const grid = document.getElementById('model-grid');
     grid.innerHTML = models.map(m => `
-    <div class="model-card">
-      <img class="model-photo" src="${MODEL_IMAGES[m.img]}" alt="${m.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    <div class="model-card" onclick="openModelDetailModal(${m.id})" title="${m.name}の詳細を見る">
+      <img class="model-photo" src="${MODEL_IMAGES[m.img] || ''}" alt="${m.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
       <div class="model-photo-placeholder" style="display:none">
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="16" r="8" stroke="#4a5a88" stroke-width="1.5"/><path d="M6 38C6 30 12.268 24 20 24C27.732 24 34 30 34 38" stroke="#4a5a88" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
@@ -403,9 +491,13 @@ function renderModels() {
   `).join('');
 }
 
-// ---- MODEL MODAL ----
+// ---- MODEL REGISTRATION MODAL ----
 function openModelModal() {
-    document.getElementById('model-form').reset();
+    const form = document.getElementById('model-form');
+    form.reset();
+    // アレルギー詳細を閉じる
+    const ac = document.getElementById('reg-allergy-detail-container');
+    if (ac) ac.classList.remove('active');
     document.querySelectorAll('.upload-zone').forEach(z => z.classList.remove('uploaded'));
     document.getElementById('model-modal-overlay').classList.add('open');
 }
@@ -416,10 +508,304 @@ function closeModelModal(e) {
 }
 
 function submitModel() {
-    const name = document.querySelector('#model-form input[placeholder="山田 花子"]').value;
+    const name = document.getElementById('reg-name') ? document.getElementById('reg-name').value : '';
     if (!name) { showToast('⚠️ 氏名を入力してください'); return; }
+
+    const nameRoma = (document.getElementById('reg-name-roma') || {}).value || '';
+    const age = parseInt((document.getElementById('reg-age') || {}).value || '0');
+    const height = parseInt((document.getElementById('reg-height') || {}).value || '0');
+    const size = (document.getElementById('reg-size') || {}).value || '—';
+    const skills = (document.getElementById('reg-skills') || {}).value || '';
+    const pref = (document.getElementById('reg-pref') || {}).value || '';
+    const station = (document.getElementById('reg-station') || {}).value || '';
+    const videoSelf = (document.getElementById('reg-video-self') || {}).value || '';
+    const videoAct = (document.getElementById('reg-video-act') || {}).value || '';
+    const videoOther = (document.getElementById('reg-video-other') || {}).value || '';
+    const allergyRadio = document.querySelector('input[name="reg-allergy"]:checked');
+    const allergy = allergyRadio ? allergyRadio.value : 'なし';
+    const allergyDetail = (document.getElementById('reg-allergy-detail') || {}).value || '';
+    const instagramUrl = (document.getElementById('reg-instagram-url') || {}).value || '';
+    const instagramFollowers = parseInt((document.getElementById('reg-instagram-followers') || {}).value || '0') || null;
+    const tiktokUrl = (document.getElementById('reg-tiktok-url') || {}).value || '';
+    const tiktokFollowers = parseInt((document.getElementById('reg-tiktok-followers') || {}).value || '0') || null;
+    const xUrl = (document.getElementById('reg-x-url') || {}).value || '';
+    const xFollowers = parseInt((document.getElementById('reg-x-followers') || {}).value || '0') || null;
+
+    const newId = models.length > 0 ? Math.max(...models.map(m => m.id)) + 1 : 1;
+    const newModel = {
+        id: newId,
+        name, nameRoma, age: age || 0, height: height || 0, size: size || '—', skills,
+        img: null, // 画像アップロードは別途対応
+        pref, station,
+        videoSelf, videoAct, videoOther,
+        allergy, allergyDetail,
+        instagramUrl, instagramFollowers,
+        tiktokUrl, tiktokFollowers,
+        xUrl, xFollowers
+    };
+
+    models.push(newModel);
+    renderModels();
     document.getElementById('model-modal-overlay').classList.remove('open');
     showToast('✅ モデルコンポジを登録しました！', 'success');
+    // サイドバーバッジ更新
+    const badge = document.querySelector('.sidebar-item[data-page="models"] .sidebar-badge');
+    if (badge) badge.textContent = models.length;
+}
+
+// ---- MODEL DETAIL MODAL ----
+let currentDetailModelId = null;
+
+function formatFollowers(n) {
+    if (!n) return '—';
+    if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, '') + '万';
+    return n.toLocaleString();
+}
+
+function openModelDetailModal(id) {
+    currentDetailModelId = id;
+    const overlay = document.getElementById('model-detail-overlay');
+    if (!overlay) return;
+    overlay.classList.add('open');
+    renderModelDetailView(id);
+}
+
+function closeModelDetailModal(e) {
+    const overlay = document.getElementById('model-detail-overlay');
+    if (e && e.target !== overlay) return;
+    overlay.classList.remove('open');
+}
+
+function renderModelDetailView(id) {
+    const m = models.find(x => x.id === id);
+    if (!m) return;
+    const container = document.getElementById('model-detail-content');
+
+    const videoLinks = [
+        { label: '自己紹介', url: m.videoSelf },
+        { label: '演技', url: m.videoAct },
+        { label: 'ダンス・その他', url: m.videoOther },
+    ].filter(v => v.url);
+
+    const snsItems = [
+        { name: 'Instagram', url: m.instagramUrl, followers: m.instagramFollowers, color: '#e1306c' },
+        { name: 'TikTok', url: m.tiktokUrl, followers: m.tiktokFollowers, color: '#000000' },
+        { name: 'X', url: m.xUrl, followers: m.xFollowers, color: '#1da1f2' },
+    ].filter(s => s.url || s.followers);
+
+    container.innerHTML = `
+    <div class="mdm-header">
+      <div class="mdm-photo-wrap">
+        <img class="mdm-photo" src="${MODEL_IMAGES[m.img] || ''}" alt="${m.name}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="mdm-photo-placeholder">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="22" r="11" stroke="#94a3b8" stroke-width="2"/><path d="M7 52C7 41 16.4 32 28 32C39.6 32 49 41 49 52" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="mdm-identity">
+        <div class="mdm-name">${m.name}</div>
+        <div class="mdm-name-roma">${m.nameRoma || ''}</div>
+        ${m.pref || m.station ? `<div class="mdm-location">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C4.015 1 2 3.015 2 5.5C2 8.985 6.5 12 6.5 12C6.5 12 11 8.985 11 5.5C11 3.015 8.985 1 6.5 1Z" stroke="currentColor" stroke-width="1.2"/><circle cx="6.5" cy="5.5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+          ${[m.pref, m.station].filter(Boolean).join(' / ')}
+        </div>` : ''}
+      </div>
+      <button class="mdm-edit-btn" onclick="renderModelDetailEditForm(${m.id})">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M10.5 2.5L12.5 4.5L4.5 12.5H2.5V10.5L10.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        プロフィール編集
+      </button>
+    </div>
+
+    <div class="mdm-body">
+      <div class="mdm-section-title">基本プロフィール</div>
+      <div class="mdm-info-grid">
+        <div class="mdm-info-item"><div class="mdm-info-label">年齢</div><div class="mdm-info-value">${m.age || '—'}歳</div></div>
+        <div class="mdm-info-item"><div class="mdm-info-label">身長</div><div class="mdm-info-value">${m.height || '—'}cm</div></div>
+        <div class="mdm-info-item"><div class="mdm-info-label">スリーサイズ</div><div class="mdm-info-value">${m.size || '—'}</div></div>
+        <div class="mdm-info-item"><div class="mdm-info-label">特技・スキル</div><div class="mdm-info-value">${m.skills || '—'}</div></div>
+      </div>
+
+      ${videoLinks.length > 0 ? `
+      <div class="mdm-section-title" style="margin-top:24px">動画資料</div>
+      <div class="mdm-video-list">
+        ${videoLinks.map(v => `
+          <a href="${v.url}" target="_blank" class="mdm-video-link">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,2 11,7 3,12" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+            ${v.label}動画を見る
+          </a>
+        `).join('')}
+      </div>
+      ` : ''}
+
+      <div class="mdm-section-title" style="margin-top:24px">アレルギー情報</div>
+      <div class="mdm-allergy-badge ${m.allergy === 'あり' ? 'allergy--yes' : 'allergy--none'}">
+        ${m.allergy === 'あり' ? '⚠️ あり' : '✅ なし'}
+      </div>
+      ${m.allergy === 'あり' && m.allergyDetail ? `<p class="mdm-allergy-detail">${m.allergyDetail}</p>` : ''}
+
+      ${snsItems.length > 0 ? `
+      <div class="mdm-section-title" style="margin-top:24px">SNSアカウント</div>
+      <div class="mdm-sns-list">
+        ${snsItems.map(s => `
+          <div class="mdm-sns-item">
+            <span class="mdm-sns-name" style="color:${s.color}">${s.name}</span>
+            <span class="mdm-sns-followers">${formatFollowers(s.followers)} フォロワー</span>
+            ${s.url ? `<a href="${s.url}" target="_blank" class="mdm-sns-link">プロフィールを見る →</a>` : ''}
+          </div>
+        `).join('')}
+      </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderModelDetailEditForm(id) {
+    const m = models.find(x => x.id === id);
+    if (!m) return;
+    const container = document.getElementById('model-detail-content');
+    const prefOptions = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+
+    container.innerHTML = `
+    <div class="mdm-edit-header">
+      <div class="mdm-edit-title">プロフィール編集</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn--ghost" onclick="renderModelDetailView(${m.id})" style="font-size:13px;padding:8px 16px;">キャンセル</button>
+        <button class="btn btn--primary" onclick="saveModelDetail(${m.id})" style="font-size:13px;padding:8px 16px;">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          保存する
+        </button>
+      </div>
+    </div>
+    <div class="mdm-edit-body">
+      <div class="mdm-form-section-title">基本情報</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">氏名 <span class="required">*</span></label><input id="edit-name" class="form-input" value="${m.name || ''}"></div>
+        <div class="form-group"><label class="form-label">ローマ字</label><input id="edit-name-roma" class="form-input" value="${m.nameRoma || ''}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">年齢</label><input id="edit-age" type="number" class="form-input" value="${m.age || ''}"></div>
+        <div class="form-group"><label class="form-label">身長 (cm)</label><input id="edit-height" type="number" class="form-input" value="${m.height || ''}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">スリーサイズ (B/W/H)</label><input id="edit-size" class="form-input" value="${m.size || ''}"></div>
+      </div>
+      <div class="form-group"><label class="form-label">特技・スキル</label><textarea id="edit-skills" class="form-textarea" rows="2">${m.skills || ''}</textarea></div>
+
+      <div class="mdm-form-section-title" style="margin-top:20px">在住地・最寄り駅</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">在住都道府県</label>
+          <select id="edit-pref" class="form-input">
+            <option value="">選択してください</option>
+            ${prefOptions.map(p => `<option value="${p}" ${m.pref === p ? 'selected' : ''}>${p}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">最寄り駅</label><input id="edit-station" class="form-input" value="${m.station || ''}"></div>
+      </div>
+
+      <div class="mdm-form-section-title" style="margin-top:20px">動画資料</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">自己紹介動画URL</label><input id="edit-video-self" type="url" class="form-input" value="${m.videoSelf || ''}"></div>
+        <div class="form-group"><label class="form-label">演技動画URL</label><input id="edit-video-act" type="url" class="form-input" value="${m.videoAct || ''}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">ダンス・その他動画URL</label><input id="edit-video-other" type="url" class="form-input" value="${m.videoOther || ''}"></div>
+      </div>
+
+      <div class="mdm-form-section-title" style="margin-top:20px">アレルギー情報</div>
+      <div class="form-group">
+        <label class="form-label">アレルギーの有無</label>
+        <div style="display:flex;gap:24px;margin-top:6px;align-items:center;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text-secondary);font-size:14px;">
+            <input type="radio" name="edit-allergy" value="なし" ${m.allergy !== 'あり' ? 'checked' : ''} style="accent-color:var(--cyan-500);width:18px;height:18px;" onchange="toggleEditAllergy(this)"> なし
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text-secondary);font-size:14px;">
+            <input type="radio" name="edit-allergy" value="あり" ${m.allergy === 'あり' ? 'checked' : ''} style="accent-color:var(--cyan-500);width:18px;height:18px;" onchange="toggleEditAllergy(this)"> あり
+          </label>
+        </div>
+      </div>
+      <div class="allergy-detail-container${m.allergy === 'あり' ? ' active' : ''}" id="edit-allergy-detail-container">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">アレルギー詳細</label>
+          <textarea id="edit-allergy-detail" class="form-textarea" rows="2">${m.allergyDetail || ''}</textarea>
+        </div>
+      </div>
+
+      <div class="mdm-form-section-title" style="margin-top:20px">SNSアカウント情報</div>
+      <div class="sns-row">
+        <div class="sns-group">
+          <div style="font-size:13px;font-weight:600;color:#e1306c;margin-bottom:8px;">Instagram</div>
+          <div class="sns-inputs">
+            <input type="url" id="edit-instagram-url" class="form-input" placeholder="アカウントURL" value="${m.instagramUrl || ''}">
+            <input type="number" id="edit-instagram-followers" class="form-input" placeholder="フォロワー数" min="0" value="${m.instagramFollowers || ''}">
+          </div>
+        </div>
+        <div class="sns-group">
+          <div style="font-size:13px;font-weight:600;color:#000;margin-bottom:8px;">TikTok</div>
+          <div class="sns-inputs">
+            <input type="url" id="edit-tiktok-url" class="form-input" placeholder="アカウントURL" value="${m.tiktokUrl || ''}">
+            <input type="number" id="edit-tiktok-followers" class="form-input" placeholder="フォロワー数" min="0" value="${m.tiktokFollowers || ''}">
+          </div>
+        </div>
+        <div class="sns-group">
+          <div style="font-size:13px;font-weight:600;color:#1da1f2;margin-bottom:8px;">X (旧Twitter)</div>
+          <div class="sns-inputs">
+            <input type="url" id="edit-x-url" class="form-input" placeholder="アカウントURL" value="${m.xUrl || ''}">
+            <input type="number" id="edit-x-followers" class="form-input" placeholder="フォロワー数" min="0" value="${m.xFollowers || ''}">
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleEditAllergy(radio) {
+    const container = document.getElementById('edit-allergy-detail-container');
+    if (!container) return;
+    if (radio.value === 'あり') {
+        container.classList.add('active');
+    } else {
+        container.classList.remove('active');
+    }
+}
+
+function saveModelDetail(id) {
+    const idx = models.findIndex(x => x.id === id);
+    if (idx < 0) return;
+
+    const get = (elId, fallback = '') => {
+        const el = document.getElementById(elId);
+        return el ? el.value : fallback;
+    };
+
+    const allergyRadio = document.querySelector('input[name="edit-allergy"]:checked');
+
+    models[idx] = {
+        ...models[idx],
+        name: get('edit-name') || models[idx].name,
+        nameRoma: get('edit-name-roma'),
+        age: parseInt(get('edit-age')) || models[idx].age,
+        height: parseInt(get('edit-height')) || models[idx].height,
+        size: get('edit-size') || '—',
+        skills: get('edit-skills'),
+        pref: get('edit-pref'),
+        station: get('edit-station'),
+        videoSelf: get('edit-video-self'),
+        videoAct: get('edit-video-act'),
+        videoOther: get('edit-video-other'),
+        allergy: allergyRadio ? allergyRadio.value : models[idx].allergy,
+        allergyDetail: get('edit-allergy-detail'),
+        instagramUrl: get('edit-instagram-url'),
+        instagramFollowers: parseInt(get('edit-instagram-followers')) || null,
+        tiktokUrl: get('edit-tiktok-url'),
+        tiktokFollowers: parseInt(get('edit-tiktok-followers')) || null,
+        xUrl: get('edit-x-url'),
+        xFollowers: parseInt(get('edit-x-followers')) || null,
+    };
+
+    renderModels();
+    renderModelDetailView(id);
+    showToast('✅ プロフィールを更新しました！', 'success');
 }
 
 // ---- FILE UPLOAD UX ----
@@ -516,91 +902,4 @@ function showToast(msg, type = '') {
     toast.textContent = msg;
     toast.className = `toast${type ? ` toast--${type}` : ''} show`;
     setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// ---- BILLING & SUBSCRIPTION (Stripe Mock) ----
-function openPlanChangeModal() {
-    document.getElementById('plan-modal-overlay').classList.add('open');
-}
-function closePlanChangeModal(e) {
-    if (e && e.target !== document.getElementById('plan-modal-overlay')) return;
-    document.getElementById('plan-modal-overlay').classList.remove('open');
-}
-function submitPlanChange() {
-    const selectedPlan = document.querySelector('input[name="plan-select"]:checked').value;
-    const planNameEl = document.getElementById('current-plan-name');
-    const footerPlanNameEl = document.querySelector('.plan-name'); // サイドバーフッターのプラン表示
-    
-    if (selectedPlan === 'starter') {
-        planNameEl.textContent = 'スタータープラン';
-        planNameEl.nextElementSibling.innerHTML = '¥10,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
-        if (footerPlanNameEl) footerPlanNameEl.textContent = 'スタータープラン';
-    } else if (selectedPlan === 'business') {
-        planNameEl.textContent = 'ビジネスプラン';
-        planNameEl.nextElementSibling.innerHTML = '¥30,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
-        if (footerPlanNameEl) footerPlanNameEl.textContent = 'ビジネスプラン';
-    } else if (selectedPlan === 'pro') {
-        planNameEl.textContent = 'プロプラン';
-        planNameEl.nextElementSibling.innerHTML = '¥50,000 <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">/ 月</span>';
-        if (footerPlanNameEl) footerPlanNameEl.textContent = 'プロプラン';
-    }
-    
-    closePlanChangeModal();
-    showToast('✅ プランを変更しました（Stripe Billing連動）', 'success');
-}
-
-function openCardEditModal() {
-    document.getElementById('card-modal-overlay').classList.add('open');
-}
-function closeCardEditModal(e) {
-    if (e && e.target !== document.getElementById('card-modal-overlay')) return;
-    document.getElementById('card-modal-overlay').classList.remove('open');
-}
-function submitCardEdit() {
-    const cardNum = document.getElementById('stripe-card-num').value.trim();
-    if (!cardNum) {
-        showToast('⚠️ カード番号を入力してください');
-        return;
-    }
-    const last4 = cardNum.slice(-4);
-    document.getElementById('masked-card-number').textContent = `•••• •••• •••• ${last4 || '4242'}`;
-    closeCardEditModal();
-    showToast('✅ クレジットカード情報を更新しました（Stripe Token生成）', 'success');
-}
-
-function openCancelSubscriptionModal() {
-    document.getElementById('cancel-modal-overlay').classList.add('open');
-}
-function closeCancelSubscriptionModal(e) {
-    if (e && e.target !== document.getElementById('cancel-modal-overlay')) return;
-    document.getElementById('cancel-modal-overlay').classList.remove('open');
-}
-function submitCancelSubscription() {
-    document.getElementById('current-plan-name').textContent = 'スタータープラン (解約予約済み)';
-    closeCancelSubscriptionModal();
-    showToast('✅ サブスクリプションの解約予約を受け付けました', 'success');
-}
-
-// ---- PASSWORD RESET ----
-function openResetModal(e) {
-    if (e) e.preventDefault();
-    document.getElementById('reset-modal-overlay').classList.add('open');
-}
-function closeResetModal(e) {
-    if (e && e.target !== document.getElementById('reset-modal-overlay')) return;
-    document.getElementById('reset-modal-overlay').classList.remove('open');
-}
-function sendResetEmail() {
-    const email = document.getElementById('reset-email').value.trim();
-    if (!email) {
-        showToast('⚠️ メールアドレスを入力してください');
-        return;
-    }
-    closeResetModal();
-    showToast('✉️ パスワード再設定メールを送信しました');
-    
-    // システムから自動で一時URLを送信するシミュレーション
-    const resetToken = Math.random().toString(36).substring(2, 15);
-    const resetUrl = `${window.location.origin}${window.location.pathname}?reset_token=${resetToken}`;
-    console.log(`[Auto-Response Reset Mail Simulation]\nTo: ${email}\nLink: ${resetUrl}`);
 }
