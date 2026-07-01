@@ -896,6 +896,36 @@ function switchTab(el, panelId) {
     document.getElementById(panelId).classList.add('active');
 }
 
+function openResetModal(e) {
+    if (e) e.preventDefault();
+    const overlay = document.getElementById('reset-modal-overlay');
+    if (!overlay) return;
+    overlay.classList.add('open');
+}
+
+function closeResetModal(e) {
+    if (e && e.target !== document.getElementById('reset-modal-overlay')) return;
+    const overlay = document.getElementById('reset-modal-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+}
+
+function sendResetEmail() {
+    const emailInput = document.getElementById('reset-email');
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (!email) {
+        showToast('⚠️ メールアドレスを入力してください');
+        return;
+    }
+
+    closeResetModal();
+    showToast('✉️ パスワード再設定メールを送信しました', 'success');
+
+    const resetToken = Math.random().toString(36).substring(2, 15);
+    const resetUrl = `${window.location.origin}${window.location.pathname}?reset_token=${resetToken}`;
+    console.log(`[Password Reset Simulation]\nTo: ${email}\nLink: ${resetUrl}`);
+}
+
 // ---- TOAST ----
 function showToast(msg, type = '') {
     const toast = document.getElementById('toast');
