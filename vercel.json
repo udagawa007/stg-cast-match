@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/admin", "destination": "/cm-backstage-login/index.html" },
+    { "source": "/admin/:path*", "destination": "/cm-backstage-login/:path*" }
+  ]
+}
