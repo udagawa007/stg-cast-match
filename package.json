@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "npx serve .",
-    "build": "mkdir -p dist && cp index.html style.css app.js *.png dist/",
+    "build": "rm -rf dist && mkdir -p dist && cp index.html style.css app.js privacy.html terms.html tokushouho.html vercel.json dist/ && cp -R cm-backstage-login dist/cm-backstage-login && cp *.png dist/",
     "start": "npx serve dist"
   },
   "keywords": [],

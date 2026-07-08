@@ -1,4 +1,8 @@
 {
+  "builds": [
+    { "src": "package.json", "use": "@vercel/static-build" }
+  ],
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/admin", "destination": "/cm-backstage-login/index.html" },
     { "source": "/admin/:path*", "destination": "/cm-backstage-login/:path*" }
